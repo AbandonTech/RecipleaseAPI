@@ -37,3 +37,12 @@ INSERT INTO recipe_ingredient (recipe_id, ingredient) VALUES (1, 'Mushroom');
 INSERT INTO recipe_ingredient (recipe_id, ingredient) VALUES (2, 'Mushroom');
 INSERT INTO recipe_ingredient (recipe_id, ingredient) VALUES (3, 'Orange');
 ```
+
+### Database Migrations
+Currently the `reciplease.db` file is created in the local app directory. `C:\Users\<user>\AppData\Local` on windows.
+```
+dotnet tool install --global dotnet-ef
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet ef migrations add <migrationName>
+dotnet ef database update
+```
