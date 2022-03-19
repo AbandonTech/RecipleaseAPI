@@ -11,8 +11,11 @@ public class RecipleaseContext : DbContext
 
     public RecipleaseContext() 
     {
-        var folder = Environment.SpecialFolder.LocalApplicationData;
-        var path = Environment.GetFolderPath(folder);
+        var CurrentDirectory = Environment.CurrentDirectory;
+        var path = System.IO.Path.Join(CurrentDirectory, "TempData");
+        
+        System.IO.Directory.CreateDirectory(path);
+
         DbPath = System.IO.Path.Join(path, "reciplease.db");     
     }
 
