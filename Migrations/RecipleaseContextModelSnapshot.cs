@@ -8,8 +8,8 @@ using Reciplease;
 
 namespace Reciplease.Migrations
 {
-    [DbContext(typeof(RecipeContext))]
-    partial class RecipeContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(RecipleaseContext))]
+    partial class RecipleaseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -46,7 +46,7 @@ namespace Reciplease.Migrations
 
             modelBuilder.Entity("Reciplease.RecipeIngredient", b =>
                 {
-                    b.Property<int>("recipeId")
+                    b.Property<int>("RecipeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -60,7 +60,7 @@ namespace Reciplease.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("recipeId");
+                    b.HasKey("RecipeId");
 
                     b.ToTable("RecipeIngredients");
                 });

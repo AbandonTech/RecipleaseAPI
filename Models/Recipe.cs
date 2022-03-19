@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reciplease;
 
-public class RecipeContext : DbContext 
+public class RecipleaseContext : DbContext 
 {
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<Ingredient> Ingredients { get; set; }
@@ -16,7 +16,7 @@ public class RecipeContext : DbContext
 
     public string DbPath { get; }
 
-    public RecipeContext() 
+    public RecipleaseContext() 
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);
@@ -46,7 +46,7 @@ public class Ingredient
 public class RecipeIngredient
 {
     [Key]
-    public int recipeId { get; set; }
+    public int RecipeId { get; set; }
     public int IngredientId { get; set; }
     public int Quantity { get; set;}
     

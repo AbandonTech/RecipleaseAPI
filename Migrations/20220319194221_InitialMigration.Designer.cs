@@ -9,14 +9,24 @@ using Reciplease;
 
 namespace Reciplease.Migrations
 {
-    [DbContext(typeof(RecipeContext))]
-    [Migration("20220318023216_InitialMigration")]
+    [DbContext(typeof(RecipleaseContext))]
+    [Migration("20220319194221_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
+
+            modelBuilder.Entity("Reciplease.Ingredient", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Ingredients");
+                });
 
             modelBuilder.Entity("Reciplease.Recipe", b =>
                 {
@@ -34,6 +44,27 @@ namespace Reciplease.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("Reciplease.RecipeIngredient", b =>
+                {
+                    b.Property<int>("RecipeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("QuantityUnit")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("RecipeId");
+
+                    b.ToTable("RecipeIngredients");
                 });
 #pragma warning restore 612, 618
         }

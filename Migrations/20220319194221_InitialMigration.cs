@@ -4,7 +4,7 @@
 
 namespace Reciplease.Migrations
 {
-    public partial class Ingredients : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,7 +23,7 @@ namespace Reciplease.Migrations
                 name: "RecipeIngredients",
                 columns: table => new
                 {
-                    recipeId = table.Column<int>(type: "INTEGER", nullable: false)
+                    RecipeId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     IngredientId = table.Column<int>(type: "INTEGER", nullable: false),
                     Quantity = table.Column<int>(type: "INTEGER", nullable: false),
@@ -31,7 +31,21 @@ namespace Reciplease.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RecipeIngredients", x => x.recipeId);
+                    table.PrimaryKey("PK_RecipeIngredients", x => x.RecipeId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Recipes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Servings = table.Column<int>(type: "INTEGER", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Recipes", x => x.Id);
                 });
         }
 
@@ -42,6 +56,9 @@ namespace Reciplease.Migrations
 
             migrationBuilder.DropTable(
                 name: "RecipeIngredients");
+
+            migrationBuilder.DropTable(
+                name: "Recipes");
         }
     }
 }

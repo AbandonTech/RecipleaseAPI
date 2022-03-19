@@ -8,16 +8,21 @@ public class RecipeController : ControllerBase
 {
 
     private readonly ILogger<RecipeController> _logger;
+    private readonly RecipleaseContext _context;
 
-    public RecipeController(ILogger<RecipeController> logger)
+    public RecipeController(ILogger<RecipeController> logger, RecipleaseContext context)
     {
         _logger = logger;
+        _context = context;
     }
 
     [HttpGet(Name = "GetRecipes")]
-    public string GetRecipes()
+    public IList<Recipe> GetRecipes()
     {
-        return "test";
+        using (var context = new RecipleaseContext()){
+            var recipes = context.Recipes.ToList();
+            return recipes;
+        }
     }
 
 }
