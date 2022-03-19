@@ -1,5 +1,8 @@
 .idea
+.vs
+.vscode
 
+TempData/
 bin/
 obj/
 /packages/
