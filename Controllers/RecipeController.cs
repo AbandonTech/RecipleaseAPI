@@ -17,12 +17,9 @@ public class RecipeController : ControllerBase
     }
 
     [HttpGet(Name = "GetRecipes")]
-    public IList<Recipe> GetRecipes()
+    public Recipe[] GetRecipes()
     {
-        using (var context = new RecipleaseContext()){
-            var recipes = context.Recipes.ToList();
-            return recipes;
-        }
+        return _context.Recipes.ToArray();
     }
 
 }
