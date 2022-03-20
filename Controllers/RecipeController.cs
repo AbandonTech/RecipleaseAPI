@@ -137,9 +137,22 @@ public class RecipeController : ControllerBase
     public ActionResult<Recipe> UpdateOrCreateRecipe(Recipe recipe)
     {
         var oldRecipe = GetRecipe(recipe.Id).Value;
-        
+
         if (oldRecipe == null)
-            return CreateRecipe(new CreateRecipeDto {Name = recipe.Name, Servings = recipe.Servings});
+        {
+            var newRecipeDto = new CreateRecipeDto
+            {
+                Name = recipe.Name,
+                Servings = recipe.Servings
+            };
+            
+            var createdRecipe = CreateRecipe(newRecipeDto).Value!;
+            return CreatedAtAction(
+                nameof(GetRecipe), 
+                new { recipeId = createdRecipe.Id },
+                createdRecipe);
+        }
+
 
         // Entity framework doesn't like us querying before hand, as it counts as a tracked entity.
         // Due to this we have to clear the tracker before updating the entity of the same id.
