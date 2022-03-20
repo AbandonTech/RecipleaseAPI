@@ -31,6 +31,11 @@ public class RecipeController : ControllerBase
     /// <remarks>
     /// Creates a new recipe from the data provided, a new id will be assigned to this new recipe. <br/>
     /// The new recipe will then be returned.
+    ///
+    /// Validation:
+    ///
+    ///     * Servings must be greater than 0
+    ///     * Name cannot be an empty string
     /// </remarks>
     /// <param name="recipe">New recipe data</param>
     /// <response code="201">The created recipe</response>
@@ -38,6 +43,9 @@ public class RecipeController : ControllerBase
     [HttpPost]
     public ActionResult<Recipe> CreateRecipe(CreateRecipeDto recipe)
     {
+        if (recipe.Servings <= 0) return BadRequest("Servings must be greater than 0");
+        if (recipe.Name.Length > 0) return BadRequest("Recipe name cannot be empty");
+
         var newRecipe = new Recipe
         {
             Servings = recipe.Servings,
@@ -48,7 +56,7 @@ public class RecipeController : ControllerBase
         {
             newRecipe = _context.Recipes.Add(newRecipe).Entity;
             _context.SaveChanges();
-            return newRecipe;
+            return CreatedAtAction(nameof(GetRecipe), new {recipeId = newRecipe.Id}, newRecipe);
         }
         catch (DbUpdateException e)
         {
