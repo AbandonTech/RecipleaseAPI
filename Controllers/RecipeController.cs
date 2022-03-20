@@ -19,7 +19,7 @@ public class RecipeController : ControllerBase
     /// Get all recipes
     /// </summary>
     /// <returns></returns>
-    [HttpGet]
+    [HttpGet, Route("all")]
     public ActionResult<Recipe[]> GetAllRecipes()
     {
         return _context.Recipes.ToArray();
