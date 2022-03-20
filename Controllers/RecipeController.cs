@@ -18,7 +18,7 @@ public class RecipeController : ControllerBase
     /// <summary>
     /// Get all recipes
     /// </summary>
-    /// <returns></returns>
+    /// <response code="200">All recipes</response>
     [HttpGet, Route("all")]
     public ActionResult<Recipe[]> GetAllRecipes()
     {
@@ -33,7 +33,8 @@ public class RecipeController : ControllerBase
     /// The new recipe will then be returned.
     /// </remarks>
     /// <param name="recipe">New recipe data</param>
-    /// <returns></returns>
+    /// <response code="201">The created recipe</response>
+    /// <response code="400">Invalid data in request</response>
     [HttpPost]
     public ActionResult<Recipe> CreateRecipe(CreateRecipeDto recipe)
     {
@@ -63,8 +64,9 @@ public class RecipeController : ControllerBase
     /// Get a recipe using its id. <br />
     /// If a recipe with that id does not exists, a 404 response will be returned.
     /// </remarks>
-    /// <param name="recipeId"></param>
-    /// <returns></returns>
+    /// <param name="recipeId">The id of the recipe to get</param>
+    /// <response code="200">The recipe searched for</response>
+    /// <response code="404">Recipe does not exist</response>
     [HttpGet, Route("{recipeId:int}")]
     public ActionResult<Recipe> GetRecipe(int recipeId)
     {
@@ -83,8 +85,9 @@ public class RecipeController : ControllerBase
     /// Delete a recipe using its id. <br />
     /// If a recipe with that id does not exists, a 404 response will be returned.
     /// </remarks>
-    /// <param name="recipeId"></param>
-    /// <returns></returns>
+    /// <param name="recipeId">The id of the recipe to delete</param>
+    /// <response code="200">Recipe successfully delete</response>
+    /// <response code="404">Recipe does not exist</response>
     [HttpDelete, Route("{recipeId:int}")]
     public ActionResult DeleteRecipe(int recipeId)
     {
@@ -106,7 +109,8 @@ public class RecipeController : ControllerBase
     /// </remarks>
     /// <param name="recipeId"></param>
     /// <param name="recipe"></param>
-    /// <returns></returns>
+    /// <response code="200">The recipe that was created</response>
+    /// <response code="404">Recipe does not exist</response>
     [HttpPatch, Route("{recipeId:int}")]
     public ActionResult<Recipe> UpdateRecipe(int recipeId, CreateRecipeDto recipe)
     {
@@ -132,7 +136,9 @@ public class RecipeController : ControllerBase
     /// If a new entry is created, the returned recipe data will hold the new id.
     /// </remarks>
     /// <param name="recipe"></param>
-    /// <returns></returns>
+    /// <response code="200">The recipe that was updated</response>
+    /// <response code="201">The recipe that was created</response>
+    /// <response code="400">Invalid data in request</response>
     [HttpPut]
     public ActionResult<Recipe> UpdateOrCreateRecipe(Recipe recipe)
     {
@@ -145,12 +151,8 @@ public class RecipeController : ControllerBase
                 Name = recipe.Name,
                 Servings = recipe.Servings
             };
-            
-            var createdRecipe = CreateRecipe(newRecipeDto).Value!;
-            return CreatedAtAction(
-                nameof(GetRecipe), 
-                new { recipeId = createdRecipe.Id },
-                createdRecipe);
+
+            return CreateRecipe(newRecipeDto);
         }
 
 
