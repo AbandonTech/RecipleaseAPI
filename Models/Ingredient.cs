@@ -2,11 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Reciplease;
 
-public class Recipe 
+public class Ingredient
 {
-    public int Id { get; set; }
-    public int Servings { get; set; }
-
+    [Key]
     [Required]
     public string Name { get; set; }
 }
