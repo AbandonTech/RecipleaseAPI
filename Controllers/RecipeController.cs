@@ -69,21 +69,18 @@ public class RecipeController : ControllerBase
     [HttpPatch, Route("{recipeId:int}")]
     public ActionResult<Recipe> UpdateRecipe(int recipeId, CreateRecipeDto recipe)
     {
-        if (!_context.Recipes.Any(r => r.Id == recipeId))
-        {
-            return NotFound("a recipe with that id does not exist");
-        }
+        var recipeResult = GetRecipe(recipeId);
 
-        var newRecipe = new Recipe
-        {
-            Id = recipeId,
-            Servings = recipe.Servings,
-            Name = recipe.Name
-        };
+        if (recipeResult.Value == null) return recipeResult.Result!;
 
-        var updatedRecipe = _context.Recipes.Update(newRecipe).Entity;
+        var recipeToUpdate = recipeResult.Value!;
+
+        recipeToUpdate.Name = recipe.Name;
+        recipeToUpdate.Servings = recipe.Servings;
+
+        _context.Update(recipeToUpdate);
         _context.SaveChanges();
-        return updatedRecipe;
+        return recipeToUpdate;
     }
 
     [HttpPut]
