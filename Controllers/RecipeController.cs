@@ -44,7 +44,7 @@ public class RecipeController : ControllerBase
     public ActionResult<Recipe> CreateRecipe(CreateRecipeDto recipe)
     {
         if (recipe.Servings <= 0) return BadRequest("Servings must be greater than 0");
-        if (recipe.Name.Length > 0) return BadRequest("Recipe name cannot be empty");
+        if (recipe.Name.Length == 0) return BadRequest("Recipe name cannot be empty");
 
         var newRecipe = new Recipe
         {
