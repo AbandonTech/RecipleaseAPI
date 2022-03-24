@@ -3,6 +3,7 @@ namespace Reciplease;
 
 public class RecipleaseContext : DbContext 
 {
+    public DbSet<User> Users { get; set; }
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<Ingredient> Ingredients { get; set; }
     public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
@@ -21,4 +22,9 @@ public class RecipleaseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        => modelBuilder.Entity<User>()
+            .Property(b => b.Scope)
+            .HasDefaultValue("User");
 }
