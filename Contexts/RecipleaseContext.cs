@@ -8,10 +8,20 @@ public class RecipleaseContext : DbContext
     public DbSet<Ingredient> Ingredients { get; set; }
     public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
 
+    public string? googleClientId = Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID");
+    public string? googleClientSecret = Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET");
+
     public string DbPath { get; }
 
     public RecipleaseContext() 
     {
+        if (googleClientId == null){
+            throw new ArgumentNullException(paramName: nameof(googleClientId), message: "Google OAuth Client Id cannot be null.");
+        }
+        if (googleClientSecret == null){
+            throw new ArgumentNullException(paramName: nameof(googleClientSecret), message: "Google OAuth Client Secret cannot be null.");
+        }
+
         var CurrentDirectory = Environment.CurrentDirectory;
         var path = System.IO.Path.Join(CurrentDirectory, "TempData");
         

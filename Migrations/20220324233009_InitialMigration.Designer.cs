@@ -10,7 +10,7 @@ using Reciplease;
 namespace Reciplease.Migrations
 {
     [DbContext(typeof(RecipleaseContext))]
-    [Migration("20220319194221_InitialMigration")]
+    [Migration("20220324233009_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,6 +65,27 @@ namespace Reciplease.Migrations
                     b.HasKey("RecipeId");
 
                     b.ToTable("RecipeIngredients");
+                });
+
+            modelBuilder.Entity("Reciplease.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Scope")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("User");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
