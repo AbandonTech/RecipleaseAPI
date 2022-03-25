@@ -41,7 +41,7 @@ public class JwtGenerator
             Issuer = "AuthService",
             Subject = new ClaimsIdentity(new Claim[]
             {
-                        new Claim(ClaimTypes.Sid, userId.ToString())
+                new Claim(ClaimTypes.Sid, userId.ToString())
             }),
             Expires = DateTime.UtcNow.AddMinutes(60),
             SigningCredentials = new SigningCredentials(_key, SecurityAlgorithms.RsaSha256)

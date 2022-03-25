@@ -37,6 +37,6 @@ public class UserController : ControllerBase
         settings.Audience = new List<string>() {_context.googleClientId };
 
         GoogleJsonWebSignature.Payload payload = GoogleJsonWebSignature.ValidateAsync(data.IdToken, settings).Result;
-        return Ok(new { AuthToken = _jwtGenerator.CreateUserAuthToken(payload.Email) });
+        return Ok( payload );
     }
 }
