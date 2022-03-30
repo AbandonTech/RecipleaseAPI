@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +41,7 @@ public class RecipeController : ControllerBase
     /// <param name="recipe">New recipe data</param>
     /// <response code="201">The created recipe</response>
     /// <response code="400">Invalid data in request</response>
+    [Authorize]
     [HttpPost]
     public ActionResult<Recipe> CreateRecipe(CreateRecipeDto recipe)
     {
@@ -96,6 +98,7 @@ public class RecipeController : ControllerBase
     /// <param name="recipeId">The id of the recipe to delete</param>
     /// <response code="200">Recipe successfully delete</response>
     /// <response code="404">Recipe does not exist</response>
+    [Authorize]
     [HttpDelete, Route("{recipeId:int}")]
     public ActionResult DeleteRecipe(int recipeId)
     {

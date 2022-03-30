@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 namespace Reciplease;
 
-public class RecipleaseContext : DbContext 
+public class RecipleaseContext : IdentityDbContext<IdentityUser> 
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Recipe> Recipes { get; set; }
@@ -13,7 +16,7 @@ public class RecipleaseContext : DbContext
 
     public string DbPath { get; }
 
-    public RecipleaseContext() 
+    public RecipleaseContext(DbContextOptions<RecipleaseContext> options) : base(options)
     {
         if (googleClientId == null){
             throw new ArgumentNullException(paramName: nameof(googleClientId), message: "Google OAuth Client Id cannot be null.");
@@ -34,7 +37,11 @@ public class RecipleaseContext : DbContext
         => options.UseSqlite($"Data Source={DbPath}");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-        => modelBuilder.Entity<User>()
+    {
+        base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.Entity<User>()
             .Property(b => b.Scope)
             .HasDefaultValue("User");
+    }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reciplease;
 
@@ -10,9 +11,10 @@ using Reciplease;
 namespace Reciplease.Migrations
 {
     [DbContext(typeof(RecipleaseContext))]
-    partial class RecipleaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220330201756_initialMigration")]
+    partial class initialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
