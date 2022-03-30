@@ -12,7 +12,6 @@ public class UserController : ControllerBase
 {
      private readonly ILogger<UserController> _logger;
     private readonly RecipleaseContext _context;
-    private readonly JwtGenerator _jwtGenerator;
 
     public UserController(ILogger<UserController> logger, RecipleaseContext context)
     {
