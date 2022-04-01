@@ -2,11 +2,13 @@ using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Reciplease;
 
 var builder = WebApplication.CreateBuilder(args);
+var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>());
 
 // Add services to the container.
 
@@ -17,7 +19,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<RecipleaseContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    .AddRoles<IdentityRole>();
+
 
 builder.Services.AddAuthentication(options =>
     {
