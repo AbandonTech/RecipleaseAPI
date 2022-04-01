@@ -7,7 +7,6 @@ namespace Reciplease;
 
 public class RecipleaseContext : IdentityDbContext<IdentityUser> 
 {
-    public DbSet<User> Users { get; set; }
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<Ingredient> Ingredients { get; set; }
     public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
@@ -31,19 +30,19 @@ public class RecipleaseContext : IdentityDbContext<IdentityUser>
         {
             throw new ArgumentNullException(paramName: nameof(googleClientSecret), message: "Google OAuth Client Secret cannot be null.");
         }
-
+        
         if (JwtValidAudience == null)
         {
             throw new ArgumentNullException(paramName: nameof(JwtValidAudience),
                 message: "JWT ValidAudience cannot be null.");
         }
-
+        
         if (JwtValidIssuer == null)
         {
             throw new ArgumentNullException(paramName: nameof(JwtValidIssuer),
                 message: "JWT ValidIssuer cannot be null.");
         }
-
+        
         if (JwtSecret == null)
         {
             throw new ArgumentNullException(paramName: nameof(JwtSecret), message: "Jwt Secret cannot be null.");
@@ -59,13 +58,4 @@ public class RecipleaseContext : IdentityDbContext<IdentityUser>
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-        
-        modelBuilder.Entity<User>()
-            .Property(b => b.Scope)
-            .HasDefaultValue("User");
-    }
 }

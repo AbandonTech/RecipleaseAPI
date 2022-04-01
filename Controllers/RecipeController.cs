@@ -122,6 +122,7 @@ public class RecipeController : ControllerBase
     /// <param name="recipe"></param>
     /// <response code="200">The recipe that was created</response>
     /// <response code="404">Recipe does not exist</response>
+    [Authorize]
     [HttpPatch, Route("{recipeId:int}")]
     public ActionResult<Recipe> UpdateRecipe(int recipeId, CreateRecipeDto recipe)
     {
@@ -150,6 +151,7 @@ public class RecipeController : ControllerBase
     /// <response code="200">The recipe that was updated</response>
     /// <response code="201">The recipe that was created</response>
     /// <response code="400">Invalid data in request</response>
+    [Authorize]
     [HttpPut]
     public ActionResult<Recipe> UpdateOrCreateRecipe(Recipe recipe)
     {

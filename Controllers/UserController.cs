@@ -50,11 +50,12 @@ public class UserController : ControllerBase
             UserName = model.Username
             
         };
-        await _userManager.AddToRoleAsync(user, "User");
+        // await _userManager.AddToRoleAsync(user, "User"); // Placeholder for when we add user roles
+        
         var result = await _userManager.CreateAsync(user, model.Password);
         if (!result.Succeeded)
             return StatusCode(500);
-        return Ok();
+        return StatusCode(201);
     }
 
     [AllowAnonymous]
@@ -74,6 +75,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
         var user = await _userManager.FindByNameAsync(model.Username);
+        
         if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
         {
             var userRoles = await _userManager.GetRolesAsync(user);
