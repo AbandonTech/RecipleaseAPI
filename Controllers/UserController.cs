@@ -35,6 +35,26 @@ public class UserController : ControllerBase
         public string IdToken { get; set; }
     }
 
+    [HttpPost]
+    [Route("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterModel model)
+    {
+        var userExist = await _userManager.FindByNameAsync(model.Username);
+        if (userExist != null)
+            return StatusCode(500);
+
+        IdentityUser user = new()
+        {
+            Email = model.Email,
+            SecurityStamp = Guid.NewGuid().ToString(),
+            UserName = model.Username
+        };
+        var result = await _userManager.CreateAsync(user, model.Password);
+        if (!result.Succeeded)
+            return StatusCode(500);
+        return Ok();
+    }
+
     [AllowAnonymous]
     [HttpPost("authenticate")]
     public IActionResult Authenticate([FromBody] AuthenticateRequest data)
