@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Reciplease.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class intitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -11,8 +11,8 @@ using Reciplease;
 namespace Reciplease.Migrations
 {
     [DbContext(typeof(RecipleaseContext))]
-    [Migration("20220401214726_initialMigration")]
-    partial class initialMigration
+    [Migration("20220402174315_intitialMigration")]
+    partial class intitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
