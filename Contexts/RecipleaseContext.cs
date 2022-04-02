@@ -11,6 +11,8 @@ public class RecipleaseContext : IdentityDbContext<IdentityUser>
     public DbSet<Ingredient> Ingredients { get; set; }
     public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
 
+    // These values are defined here as well as in the Program.cs, it is unclear to me how to use the values configured
+    // In the Program.cs, but these should be removed in favor of the forced configuration.
     public string? googleClientId = Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID");
     public string? googleClientSecret = Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET");
 
@@ -22,32 +24,6 @@ public class RecipleaseContext : IdentityDbContext<IdentityUser>
 
     public RecipleaseContext(DbContextOptions<RecipleaseContext> options) : base(options)
     {
-        if (googleClientId == null)
-        {
-            throw new ArgumentNullException(paramName: nameof(googleClientId), message: "Google OAuth Client Id cannot be null.");
-        }
-        if (googleClientSecret == null)
-        {
-            throw new ArgumentNullException(paramName: nameof(googleClientSecret), message: "Google OAuth Client Secret cannot be null.");
-        }
-        
-        if (JwtValidAudience == null)
-        {
-            throw new ArgumentNullException(paramName: nameof(JwtValidAudience),
-                message: "JWT ValidAudience cannot be null.");
-        }
-        
-        if (JwtValidIssuer == null)
-        {
-            throw new ArgumentNullException(paramName: nameof(JwtValidIssuer),
-                message: "JWT ValidIssuer cannot be null.");
-        }
-        
-        if (JwtSecret == null)
-        {
-            throw new ArgumentNullException(paramName: nameof(JwtSecret), message: "Jwt Secret cannot be null.");
-        }
-
         var CurrentDirectory = Environment.CurrentDirectory;
         var path = System.IO.Path.Join(CurrentDirectory, "TempData");
         
