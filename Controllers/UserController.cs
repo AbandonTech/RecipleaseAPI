@@ -43,7 +43,7 @@ public class UserController : ControllerBase
         var result = await _userManager.CreateAsync(user, model.Password);
         if (!result.Succeeded)
             return StatusCode(500, result.Errors);
-        return CreatedAtAction(nameof(Profile), new {Username = user.UserName}, user);
+        return CreatedAtAction(nameof(Profile), new {Username = user.UserName});
     }
 
     [HttpGet]
