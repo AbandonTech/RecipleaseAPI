@@ -29,16 +29,29 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
+    var validAudience = Environment.GetEnvironmentVariable("ValidAudience");
+    var validIssuer = Environment.GetEnvironmentVariable("ValidIssuer");
+    var jwtSecretKey = Environment.GetEnvironmentVariable("Secret");
+
+    if (validAudience == null)
+        throw new ArgumentNullException(nameof(validAudience), "ValidAudience cannot be null.");
+    
+    if (validIssuer == null)
+        throw new ArgumentNullException(nameof(validIssuer), "ValidIssuer cannot be null.");
+    
+    if (jwtSecretKey == null)
+        throw new ArgumentNullException(nameof(jwtSecretKey), "Secret cannot be null.");
+    
     options.SaveToken = true;
     options.RequireHttpsMetadata = false;
     options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidAudience = Environment.GetEnvironmentVariable("ValidAudience"),
-        ValidIssuer = Environment.GetEnvironmentVariable("ValidIssuer"),
+        ValidAudience = validAudience,
+        ValidIssuer = validIssuer,
         IssuerSigningKey =
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("Secret")))
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey))
     };
 })
 .AddGoogle(googleOptions => 
