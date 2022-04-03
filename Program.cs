@@ -21,27 +21,27 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 
-builder.Services.AddAuthentication(options =>
+builder.Services.AddAuthentication(options => 
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
     {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
-    {
-        options.SaveToken = true;
-        options.RequireHttpsMetadata = false;
-        options.TokenValidationParameters = new TokenValidationParameters()
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidAudience = Environment.GetEnvironmentVariable("ValidAudience"),
-            ValidIssuer = Environment.GetEnvironmentVariable("ValidIssuer"),
-            IssuerSigningKey =
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("Secret")))
-        };
-    })
-        .AddGoogle(googleOptions => 
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = Environment.GetEnvironmentVariable("ValidAudience"),
+        ValidIssuer = Environment.GetEnvironmentVariable("ValidIssuer"),
+        IssuerSigningKey =
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("Secret")))
+    };
+})
+.AddGoogle(googleOptions => 
 {
     var clientId = Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID");
     var clientSecret = Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET");
@@ -55,7 +55,7 @@ builder.Services.AddAuthentication(options =>
     googleOptions.ClientSecret = clientSecret;
 });
 
-builder.Services.AddSwaggerGen(options =>
+builder.Services.AddSwaggerGen(options => 
 {
     // Add docstrings to Swagger docs.
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
