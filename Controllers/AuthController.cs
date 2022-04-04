@@ -67,8 +67,6 @@ public class AuthController : ControllerBase
             token = new JwtSecurityTokenHandler().WriteToken(token),
             expiration = token.ValidTo
         });
-
-            return Unauthorized();
     }
     
     private JwtSecurityToken GetToken(List<Claim> authClaims)
