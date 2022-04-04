@@ -44,7 +44,7 @@ public class AuthController : ControllerBase
 
         if (user == null || !await _userManager.CheckPasswordAsync(user, inputDto.Password))
         {
-            return BadRequest("User name or password invalid.");
+            return Unauthorized("User name or password invalid.");
         }
 
         var userRoles = await _userManager.GetRolesAsync(user);
