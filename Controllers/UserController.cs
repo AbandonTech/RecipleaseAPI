@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -48,9 +49,15 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("profile")]
-    public async Task<ActionResult<UserDto>> Profile([FromQuery] UserInputDto user)
+    public async Task<ActionResult<UserDto>> Profile()
     {
-        var result = await _userManager.FindByNameAsync(user.Username);
+        var jwtPrefix = "Bearer ";
+        var jwtString = Request.Headers["Authorization"].ToString().Substring(jwtPrefix.Length);
+        
+        var userName = new JwtSecurityTokenHandler()
+            .ReadJwtToken(jwtString).Claims.First(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
+
+        var result = await _userManager.FindByNameAsync(userName);
         return new UserDto {Username = result.UserName, Email = result.Email};
     }
 }
