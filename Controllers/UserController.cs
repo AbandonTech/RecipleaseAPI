@@ -54,10 +54,10 @@ public class UserController : ControllerBase
         var jwtPrefix = "Bearer ";
         var jwtString = Request.Headers["Authorization"].ToString().Substring(jwtPrefix.Length);
         
-        var userName = new JwtSecurityTokenHandler()
-            .ReadJwtToken(jwtString).Claims.First(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
+        var userId = new JwtSecurityTokenHandler()
+            .ReadJwtToken(jwtString).Claims.First(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
 
-        var result = await _userManager.FindByNameAsync(userName);
+        var result = await _userManager.FindByIdAsync(userId);
         return new UserDto {Username = result.UserName, Email = result.Email};
     }
 }
