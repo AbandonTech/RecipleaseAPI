@@ -23,4 +23,8 @@
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include=".github\workflows\build-and-release-docker-image.yml" />
+    </ItemGroup>
+
 </Project>
